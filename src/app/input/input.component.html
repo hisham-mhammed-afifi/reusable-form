@@ -1,0 +1,79 @@
+<div [formGroup]="form" class="mb-3">
+  <label [for]="field.name" class="form-label">{{ field.label }}</label>
+
+  <!-- Text, Email, Password, Number, Date Inputs -->
+  <input
+    *ngIf="['text', 'email', 'password', 'number', 'date'].includes(field.type)"
+    [type]="field.type"
+    class="form-control"
+    [id]="field.name"
+    [formControlName]="field.name"
+    [placeholder]="field.placeholder"
+  />
+
+  <!-- Textarea -->
+  <textarea
+    *ngIf="field.type === 'textarea'"
+    class="form-control"
+    [id]="field.name"
+    [formControlName]="field.name"
+    [placeholder]="field.placeholder"
+  ></textarea>
+
+  <!-- Select -->
+  <select
+    *ngIf="field.type === 'select'"
+    class="form-control"
+    [id]="field.name"
+    [formControlName]="field.name"
+  >
+    <option value="">Select {{ field.label }}</option>
+    <option *ngFor="let option of field.options" [value]="option.key">
+      {{ option.value }}
+    </option>
+  </select>
+
+  <!-- Checkbox -->
+  <div *ngIf="field.type === 'checkbox'" class="form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      [id]="field.name"
+      [formControlName]="field.name"
+    />
+    <label class="form-check-label" [for]="field.name">{{ field.label }}</label>
+  </div>
+
+  <!-- Radio Buttons -->
+  <div *ngIf="field.type === 'radio'">
+    <div *ngFor="let option of field.options" class="form-check">
+      <input
+        type="radio"
+        class="form-check-input"
+        [id]="field.name + '_' + option.key"
+        [formControlName]="field.name"
+        [value]="option.key"
+      />
+      <label class="form-check-label" [for]="field.name + '_' + option.key">{{
+        option.value
+      }}</label>
+    </div>
+  </div>
+
+  <!-- Validation Errors -->
+  <div
+    *ngIf="control.invalid && (control.dirty || control.touched)"
+    class="text-danger"
+  >
+    <div *ngIf="control.errors?.['required']">
+      {{ field.label }} is required.
+    </div>
+    <div *ngIf="control.errors?.['minlength']">
+      Minimum length is {{ control.errors?.['minlength'].requiredLength }}.
+    </div>
+    <div *ngIf="control.errors?.['maxlength']">
+      Maximum length is {{ control.errors?.['maxlength'].requiredLength }}.
+    </div>
+    <!-- Add more error messages as needed -->
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="container mt-5">
+  <h2>User Registration</h2>
+  <app-form
+    [fields]="formFields"
+    (submitForm)="onFormSubmit($event)"
+  ></app-form>
+
+  <pre>{{ formValue | json }}</pre>
+</div>
